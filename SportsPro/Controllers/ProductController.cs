@@ -148,5 +148,35 @@ namespace SportsPro.Controllers
         {
             return _context.Products.Any(e => e.ProductID == id);
         }
+        
+        [HttpGet, ActionName("AddEdit")]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Action = "AddEdit";
+            ViewBag.Product = _context.Products.OrderBy(g => g.Name).ToList();
+            var product = _context.Products.Find(id);
+            return View(product);
+        }
+
+        [HttpPost, ActionName("AddEdit")]
+        public IActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                if (product.ProductID == 0)
+                    _context.Products.Add(product);
+                else
+                    _context.Products.Update(product);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Product");
+            }
+            else
+            {
+                ViewBag.Action = (product.ProductID == 0) ? "Add" : "Edit";
+                ViewBag.Product = _context.Products.OrderBy(g => g.Name).ToList();
+                return View(product);
+            }
+        }
     }
 }
+

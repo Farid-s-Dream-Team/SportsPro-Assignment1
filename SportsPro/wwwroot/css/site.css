@@ -4,6 +4,7 @@ for details on configuring this project to bundle and minify static web assets. 
 h1 {
     margin-top: 1rem;
     font-size: 20pt;
+    font-family: Calibri;
 }
 
 /* Sticky footer styles
@@ -18,9 +19,13 @@ html {
   min-height: 100%;
 }
 
+header {
+    background-color: 
+}
+
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 40px;
+    /* Margin bottom by footer height */
+    margin-bottom: 40px;
 }
 .footer {
   position: absolute;
@@ -29,3 +34,9 @@ body {
   white-space: nowrap;
   line-height: 40px; /* Vertically center the text there */
 }
+
+
+
+
+
+      
