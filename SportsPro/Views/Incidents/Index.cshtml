@@ -8,8 +8,8 @@
 
 <p>
     @*<a asp-action="Create">Create New</a>*@
-    <form asp-action="Create">
-        <input type="submit" class="btn-success btn" value="Add" />
+    <form asp-action="AddEdit">
+        <input type="submit" class="btn-success btn" value="Add New Incident" />
     </form>
 </p>
 <table class="table">
@@ -64,7 +64,7 @@
                 @Html.DisplayFor(modelItem => item.DateClosed)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IncidentID">Edit</a> |
+                <a asp-action="AddEdit" asp-route-id="@item.IncidentID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IncidentID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IncidentID">Delete</a>
             </td>

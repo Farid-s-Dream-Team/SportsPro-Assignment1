@@ -148,5 +148,34 @@ namespace SportsPro.Controllers
         {
             return _context.Technicians.Any(e => e.TechnicianID == id);
         }
+
+        [HttpGet, ActionName("AddEdit")]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Action = "AddEdit";
+            //ViewBag.Incidents = _context.Incidents.OrderBy(g => g.IncidentID).ToList();
+            var tech = _context.Technicians.Find(id);
+            return View(tech);
+        }
+
+        [HttpPost, ActionName("AddEdit")]
+        public IActionResult Edit(Technician tech)
+        {
+            if (ModelState.IsValid)
+            {
+                if (tech.TechnicianID == 0)
+                    _context.Technicians.Add(tech);
+                else
+                    _context.Technicians.Update(tech);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Technicians");
+            }
+            else
+            {
+                ViewBag.Action = (tech.TechnicianID == 0) ? "Add" : "Edit";
+                ViewBag.Incedents = _context.Incidents.OrderBy(g => g.IncidentID).ToList();
+                return View(tech);
+            }
+        }
     }
 }

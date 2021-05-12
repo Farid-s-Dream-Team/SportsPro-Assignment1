@@ -7,8 +7,8 @@
 <h1>@ViewBag.Title</h1>
 
 <p>
-    <form asp-action="Create">
-        <input type="submit" class="btn-success btn" value="Add"  />
+    <form asp-action="AddEdit">
+        <input type="submit" class="btn-success btn m-2" value="Add or Edit"  />
     </form>
 
 
@@ -49,7 +49,7 @@
             </td>
             <td>
                 
-                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+                <a asp-action="AddEdit" asp-route-id="@item.ProductID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
             </td>
