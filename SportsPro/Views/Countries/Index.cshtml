@@ -4,10 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Country</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @*<a asp-action="Create">Create New</a>*@
+    <form asp-action="Create">
+        <input type="submit" class="btn-success btn" value="Add" />
+    </form>
 </p>
 <table class="table">
     <thead>
