@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace SportsPro.Models
 {
-    public class Country
+    public class Country 
     {
+		
+		
 		[Required]
 		public string CountryID { get; set; }
 

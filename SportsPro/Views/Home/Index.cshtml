@@ -7,20 +7,22 @@
 
 <h1>Admin</h1>
 <div class="list-group">
-    <a asp-controller="Product" asp-action="List"
+    <a asp-controller="Product" asp-action="Index"
        class="list-group-item">Manage Products</a>
-    <a asp-controller="Technician" asp-action="List"
+    <a asp-controller="Technician" asp-action="Index"
        class="list-group-item">Manage Technicians</a>
-    <a asp-controller="Customer" asp-action="List"
+    <a asp-controller="Customers" asp-action="Index"
        class="list-group-item">Manage Customers</a>
-    <a asp-controller="Incident" asp-action="List"
+    <a asp-controller="Incidents" asp-action="Index"
        class="list-group-item">Manage Incidents</a>
-    <a asp-controller="Registration" asp-action="List"
+    <a asp-controller="Registration" asp-action="Index"
        class="list-group-item">Manage Registrations</a>
+    <a asp-controller="Countries" asp-action="Index"
+       class="list-group-item">Countries</a>
 </div>
 
 <h1>Technicians</h1>
 <div class="list-group">
-    <a asp-controller="Incident" asp-action="ListByTech"
+    <a asp-controller="Incidents" asp-action="ListByTech"
        class="list-group-item">Update Incident</a>
 </div>
