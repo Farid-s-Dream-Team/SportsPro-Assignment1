@@ -75,11 +75,15 @@ namespace SportsPro.Controllers
         }
 
         // GET: Incidents/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> AddEdit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                //ADD feature, inserted data
+                ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address"); //changed CustomerID to Name, Address to Name
+                ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
+                ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
+                return View();
             }
 
             var incident = await _context.Incidents.FindAsync(id);
@@ -168,33 +172,7 @@ namespace SportsPro.Controllers
             return _context.Incidents.Any(e => e.IncidentID == id);
         }
 
-        [HttpGet, ActionName("AddEdit")]
-        public IActionResult Edit(int id)
-        {
-            ViewBag.Action = "AddEdit";
-            //ViewBag.Incidents = _context.Incidents.OrderBy(g => g.IncidentID).ToList();
-            var incident = _context.Incidents.Find(id);
-            return View(incident);
-        }
-
-        [HttpPost, ActionName("AddEdit")]
-        public IActionResult Edit(Incident incident)
-        {
-            if (ModelState.IsValid)
-            {
-                if (incident.IncidentID == 0)
-                    _context.Incidents.Add(incident);
-                else
-                    _context.Incidents.Update(incident);
-                _context.SaveChanges();
-                return RedirectToAction("Product", "Index");
-            }
-            else
-            {
-                ViewBag.Action = (incident.IncidentID == 0) ? "Add" : "Edit";
-                ViewBag.Incedents = _context.Incidents.OrderBy(g => g.IncidentID).ToList();
-                return View(incident);
-            }
-        }
+        
+        
     }
 }
