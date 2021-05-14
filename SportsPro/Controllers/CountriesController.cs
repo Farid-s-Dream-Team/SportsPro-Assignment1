@@ -59,6 +59,7 @@ namespace SportsPro.Controllers
             {
                 _context.Add(country);
                 await _context.SaveChangesAsync();
+                TempData["message"] = $"{country.Name} is now up to date";
                 return RedirectToAction(nameof(Index));
             }
             return View(country);
@@ -110,6 +111,7 @@ namespace SportsPro.Controllers
                         throw;
                     }
                 }
+                TempData["message"] = $"{country.Name} is now up to date";
                 return RedirectToAction(nameof(Index));
             }
             return View(country);
@@ -129,7 +131,7 @@ namespace SportsPro.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(country);
         }
 
@@ -141,6 +143,7 @@ namespace SportsPro.Controllers
             var country = await _context.Countries.FindAsync(id);
             _context.Countries.Remove(country);
             await _context.SaveChangesAsync();
+            TempData["message"] = $"{country.Name} is now deleted";
             return RedirectToAction(nameof(Index));
         }
 

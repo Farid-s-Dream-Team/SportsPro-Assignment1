@@ -21,6 +21,13 @@ namespace SportsPro
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache(); //configure app for session state
+            services.AddSession(options =>  //configure for session state
+            {
+                options.Cookie.HttpOnly = false;  //default is true
+                options.Cookie.IsEssential = true;  //default is false
+            });
+
             services.AddControllersWithViews();
 
             services.AddDbContext<SportsProContext>(options =>
@@ -50,6 +57,8 @@ namespace SportsPro
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession(); // necessary for sessions
 
             app.UseAuthorization();
 

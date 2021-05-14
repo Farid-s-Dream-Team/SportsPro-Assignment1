@@ -4,6 +4,7 @@ using SportsPro.Models;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace SportsPro.Controllers
 {
@@ -21,6 +22,7 @@ namespace SportsPro.Controllers
         {
             ViewBag.Action = "Add";
             return View("Edit", new Product());
+           
         }
 
         [HttpGet]
@@ -76,5 +78,7 @@ namespace SportsPro.Controllers
         {
             return View();
         }
+
+
     }
 }

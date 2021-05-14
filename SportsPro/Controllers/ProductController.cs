@@ -61,6 +61,7 @@ namespace SportsPro.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(product);
         }
 
@@ -77,6 +78,7 @@ namespace SportsPro.Controllers
             {
                 return NotFound();
             }
+            
             return View(product);
         }
 
@@ -110,8 +112,10 @@ namespace SportsPro.Controllers
                         throw;
                     }
                 }
+                //TempData["message"] = $"{product.Name} is now up to date";
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(product);
         }
 
@@ -155,6 +159,7 @@ namespace SportsPro.Controllers
             ViewBag.Action = "AddEdit";
             ViewBag.Product = _context.Products.OrderBy(g => g.Name).ToList();
             var product = _context.Products.Find(id);
+            
             return View(product);
         }
 
@@ -168,6 +173,7 @@ namespace SportsPro.Controllers
                 else
                     _context.Products.Update(product);
                 _context.SaveChanges();
+                //TempData["message"] = $"{product.Name} is now up to date";
                 return RedirectToAction("Index", "Product");
             }
             else
