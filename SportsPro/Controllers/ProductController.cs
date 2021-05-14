@@ -66,7 +66,7 @@ namespace SportsPro.Controllers
         }
 
         // GET: Product/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> AddEdit(int? id) //updated to AddEdit from Edit
         {
             if (id == null)
             {
@@ -87,11 +87,15 @@ namespace SportsPro.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductCode,Name,YearlyPrice,ReleaseDate")] Product product)
+        public async Task<IActionResult> AddEdit(int id, [Bind("ProductID,ProductCode,Name,YearlyPrice,ReleaseDate")] Product product) //updated to AddEdit from Edit
         {
             if (id != product.ProductID)
             {
-                return NotFound();
+                //return NotFound(); commented out for testing, will delete if it works.
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                TempData["message"] = $"{product.Name} has been created";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
@@ -112,7 +116,7 @@ namespace SportsPro.Controllers
                         throw;
                     }
                 }
-                //TempData["message"] = $"{product.Name} is now up to date";
+                TempData["message"] = $"{product.Name} is now up to date";
                 return RedirectToAction(nameof(Index));
             }
             
@@ -145,6 +149,7 @@ namespace SportsPro.Controllers
             var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+            TempData["message"] = $"{product.Name} has been deleted";
             return RedirectToAction(nameof(Index));
         }
 
@@ -152,37 +157,7 @@ namespace SportsPro.Controllers
         {
             return _context.Products.Any(e => e.ProductID == id);
         }
-        
-        [HttpGet, ActionName("AddEdit")]
-        public IActionResult Edit(int id)
-        {
-            ViewBag.Action = "AddEdit";
-            ViewBag.Product = _context.Products.OrderBy(g => g.Name).ToList();
-            var product = _context.Products.Find(id);
-            
-            return View(product);
-        }
-
-        [HttpPost, ActionName("AddEdit")]
-        public IActionResult Edit(Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                if (product.ProductID == 0)
-                    _context.Products.Add(product);
-                else
-                    _context.Products.Update(product);
-                _context.SaveChanges();
-                //TempData["message"] = $"{product.Name} is now up to date";
-                return RedirectToAction("Index", "Product");
-            }
-            else
-            {
-                ViewBag.Action = (product.ProductID == 0) ? "Add" : "Edit";
-                ViewBag.Product = _context.Products.OrderBy(g => g.Name).ToList();
-                return View(product);
-            }
-        }
+                
     }
 }
 
