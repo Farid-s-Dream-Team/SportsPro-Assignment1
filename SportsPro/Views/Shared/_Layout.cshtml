@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string controller =
+        ViewContext.RouteData.Values["controller"].ToString();
+    string action =
+        ViewContext.RouteData.Values["action"].ToString();
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,22 +31,28 @@
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <nav class="collapse navbar-collapse" id="navbarSupportedContent">
+            <nav class="collapse navbar-collapse" id="navbarSupportedContent">   @*Use razor script to have nav bar links change to active*@
                 <div class="navbar-nav mr-auto">
-                    <a class="nav-item nav-link active" asp-controller="Home" asp-action="Index">Home</a>
-                    <a class="nav-item nav-link active" asp-controller="Product" asp-action="Index">Products</a>
-                    <a class="nav-item nav-link active" asp-controller="Technicians" asp-action="Index">Technicians</a>
-                    <a class="nav-item nav-link active" asp-controller="Customers" asp-action="Index">Customers</a>
-                    <a class="nav-item nav-link active" asp-controller="Incidents" asp-action="Index">Incidents</a>
-                    <a class="nav-item nav-link active" asp-controller="Customers" asp-action="Create">Registrations</a>
+                    <a class="nav-item nav-link @(controller == "Home" && action == "Index"? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="nav-item nav-link @( controller == "Product" ? "active" : "")" asp-controller="Product" asp-action="Index">Products</a>
+                    <a class="nav-item nav-link @(controller == "Technicians"  ? "active" : "")" asp-controller="Technicians" asp-action="Index">Technicians</a>
+                    <a class="nav-item nav-link @( controller == "Customers"  && action != "Create" ? "active" : "")" asp-controller="Customers" asp-action="Index">Customers</a>
+                    <a class="nav-item nav-link @( controller == "Incidents"  ? "active" : "")" asp-controller="Incidents" asp-action="Index">Incidents</a>
+                    <a class="nav-item nav-link @( controller == "Customers" && action == "Create" ? "active" : "")" asp-controller="Customers" asp-action="Create">Registrations</a>
                 </div>
                 <div class="navbar-nav navbar-right">
-                    <a class="nav-item nav-link active" asp-controller="Home" asp-action="About">About</a>
+                    <a class="nav-item nav-link @(controller == "Home" && action == "About" ? "active" : "")" asp-controller="Home" asp-action="About">About</a>
                 </div>
             </nav>
         </nav>
     </header>
     <div class="container">
+        @* show any message in TempData *@
+        @if (TempData["message"] != null)
+        {
+            <h4 class="bg-success p-2">@TempData["message"]</h4>
+        }
+
         <main role="main" class="pb-5">
             @RenderBody()
         </main>
