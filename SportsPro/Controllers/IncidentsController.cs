@@ -76,26 +76,44 @@ namespace SportsPro.Controllers
         }
 
         // GET: Incidents/Edit/5
-        public async Task<IActionResult> AddEdit(int? id)
+        public async Task<IActionResult> AddEdit(string action = "add")
         {
-            if (id == null)
-            {
-                //ADD feature, inserted data
-                ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address"); //changed CustomerID to Name, Address to Name
-                ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
-                ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
-                return View();
-            }
+            List<Customer> customers = _context.Customers
+                .OrderBy(c => c.CustomerID).ToList();
 
-            var incident = await _context.Incidents.FindAsync(id);
-            if (incident == null)
+            List<Product> products = _context.Products
+                .OrderBy(x => x.Name).ToList();
+
+            List<Technician> technician = _context.Technicians
+                .OrderBy(t => t.Name).ToList();
+
+            var addEditModel = new IncidentAddEditViewModel
             {
-                return NotFound();
-            }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
-            ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
-            return View(incident);
+                Customers = customers,
+                Products = products,
+                Technicians = technician
+            };
+
+            return View(addEditModel);
+
+            //if (id == null)
+            //{
+            //    //ADD feature, inserted data
+            //    ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address"); //changed CustomerID to Name, Address to Name
+            //    ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
+            //    ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
+            //    return View();
+            //}
+
+            //var incident = await _context.Incidents.FindAsync(id);
+            //if (incident == null)
+            //{
+            //    return NotFound();
+            //}
+            //ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
+            //ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
+            //ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
+            //return View(incident);
         }
 
         // POST: Incidents/Edit/5
