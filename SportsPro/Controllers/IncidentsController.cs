@@ -21,8 +21,9 @@ namespace SportsPro.Controllers
         // GET: Incidents
         public async Task<IActionResult> Index()
         {
-            var sportsProContext = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician);
-            return View(await sportsProContext.ToListAsync());
+            var incidents = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician);
+            IncidentViewModel ivm = new IncidentViewModel() { Incidents = incidents.ToList() };
+            return View(ivm);
         }
 
         // GET: Incidents/Details/5
