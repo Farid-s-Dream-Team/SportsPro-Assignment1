@@ -56,3 +56,11 @@ header {
     float:left;
 }
 
+.home-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding-left: 75em;
+    border: 255px solid #555;
+}
