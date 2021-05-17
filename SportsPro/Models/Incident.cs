@@ -24,8 +24,10 @@ namespace SportsPro.Models
 		[Required]
 		public string Description { get; set; }
 
+		[Display(Name = "Date Opened")]
 		public DateTime DateOpened { get; set; } = DateTime.Now;
 
+		[Display(Name ="Date Closed")]
 		public DateTime? DateClosed { get; set; } = null;
 	}
 }

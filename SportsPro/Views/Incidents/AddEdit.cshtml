@@ -1,5 +1,4 @@
-﻿@model SportsPro.Models.Incident
-
+﻿@model IncidentAddEditViewModel
 @{
     ViewData["Title"] = "AddEdit";
 }
@@ -9,50 +8,148 @@
 <h4>Incidents</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddEdit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IncidentID" />
-            <div class="form-group">
-                <label asp-for="CustomerID" class="control-label"></label>
-                <select asp-for="CustomerID" class="form-control" asp-items="ViewBag.CustomerID"></select>
-                <span asp-validation-for="CustomerID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductID" class="control-label"></label>
-                <select asp-for="ProductID" class="form-control" asp-items="ViewBag.ProductID"></select>
-                <span asp-validation-for="ProductID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TechnicianID" class="control-label"></label>
-                <select asp-for="TechnicianID" class="form-control" asp-items="ViewBag.TechnicianID"></select>
-                <span asp-validation-for="TechnicianID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOpened" class="control-label"></label>
-                <input asp-for="DateOpened" class="form-control" />
-                <span asp-validation-for="DateOpened" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateClosed" class="control-label"></label>
-                <input asp-for="DateClosed" class="form-control" />
-                <span asp-validation-for="DateClosed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col-sm-4">
+        <a asp-controller="Customers" asp-action="List" asp-route-id="All"
+           class="list-group-item">Customers</a>
+        <a asp-controller="Products" asp-action="List" asp-route-id="All"
+           class="list-group-item">Products</a>
+        <a asp-controller="Technicians" asp-action="List" asp-route-id="All"
+           class="list-group-item">Technicians</a>
     </div>
+    <div class="col-sm-8 hide">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+
+            </thead>
+            <tbody>
+                @foreach (var customer in Model.Customers)
+                {
+                    <tr>
+                        <td>@customer.FirstName</td>
+                        <td>@customer.LastName</td>
+                        <td>@customer.Email</td>
+                        @*<td>
+                                <a asp-controller="Product" asp-action="Details"
+                                   asp-route-id="@product.ProductID"
+                                   asp-route-slug="@product.Slug">View Details</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Cart" asp-action="Add"
+                                   asp-route-id="@product.Slug">Add to Cart</a>
+                            </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-8 hide">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Price</th>
+
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.ProductCode</td>
+                        <td>@product.YearlyPrice.ToString("c")</td>
+                        @*<td>
+                                <a asp-controller="Product" asp-action="Details"
+                                   asp-route-id="@product.ProductID"
+                                   asp-route-slug="@product.Slug">View Details</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Cart" asp-action="Add"
+                                   asp-route-id="@product.Slug">Add to Cart</a>
+                            </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-8 hide">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+
+            </thead>
+            <tbody>
+                @foreach (var tech in Model.Technicians)
+                {
+                    <tr>
+                        <td>@tech.Name</td>
+                        <td>@tech.Email</td>
+                        <td>@tech.Phone</td>
+                        @*<td>
+                                <a asp-controller="Product" asp-action="Details"
+                                   asp-route-id="@product.ProductID"
+                                   asp-route-slug="@product.Slug">View Details</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Cart" asp-action="Add"
+                                   asp-route-id="@product.Slug">Add to Cart</a>
+                            </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @*<div class="col-md-4">
+            <form asp-action="AddEdit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IncidentID" />
+                <div class="form-group">
+                    <label asp-for="CustomerID" class="control-label"></label>
+                    <select asp-for="CustomerID" class="form-control" asp-items="ViewBag.CustomerID"></select>
+                    <span asp-validation-for="CustomerID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductID" class="control-label"></label>
+                    <select asp-for="ProductID" class="form-control" asp-items="ViewBag.ProductID"></select>
+                    <span asp-validation-for="ProductID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TechnicianID" class="control-label"></label>
+                    <select asp-for="TechnicianID" class="form-control" asp-items="ViewBag.TechnicianID"></select>
+                    <span asp-validation-for="TechnicianID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOpened" class="control-label"></label>
+                    <input asp-for="DateOpened" class="form-control" />
+                    <span asp-validation-for="DateOpened" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateClosed" class="control-label"></label>
+                    <input asp-for="DateClosed" class="form-control" />
+                    <span asp-validation-for="DateClosed" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>*@
 </div>
 
 <div>
