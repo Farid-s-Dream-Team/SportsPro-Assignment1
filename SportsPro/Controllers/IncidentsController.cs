@@ -50,7 +50,7 @@ namespace SportsPro.Controllers
         // GET: Incidents/Create
         public IActionResult Create()
         {
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address");
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email");
             ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
             ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
             return View();
@@ -69,51 +69,51 @@ namespace SportsPro.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email", incident.CustomerID);
             ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
             ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
             return View(incident);
         }
 
         // GET: Incidents/Edit/5
-        public async Task<IActionResult> AddEdit(string action = "add")
+        public async Task<IActionResult> Edit(int? id)
         {
-            List<Customer> customers = _context.Customers
-                .OrderBy(c => c.CustomerID).ToList();
+            //List<Customer> customers = _context.Customers
+            //    .OrderBy(c => c.CustomerID).ToList();
 
-            List<Product> products = _context.Products
-                .OrderBy(x => x.Name).ToList();
+            //List<Product> products = _context.Products
+            //    .OrderBy(x => x.Name).ToList();
 
-            List<Technician> technician = _context.Technicians
-                .OrderBy(t => t.Name).ToList();
+            //List<Technician> technician = _context.Technicians
+            //    .OrderBy(t => t.Name).ToList();
 
-            var addEditModel = new IncidentAddEditViewModel
+            //var addEditModel = new IncidentAddEditViewModel
+            //{
+            //    Customers = customers,
+            //    Products = products,
+            //    Technicians = technician
+            //};
+
+            //return View(addEditModel);
+
+            if (id == null)
             {
-                Customers = customers,
-                Products = products,
-                Technicians = technician
-            };
+                //ADD feature, inserted data
+                ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email"); //changed CustomerID to Name, Address to Name
+                ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
+                ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
+                return View();
+            }
 
-            return View(addEditModel);
-
-            //if (id == null)
-            //{
-            //    //ADD feature, inserted data
-            //    ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address"); //changed CustomerID to Name, Address to Name
-            //    ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
-            //    ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
-            //    return View();
-            //}
-
-            //var incident = await _context.Incidents.FindAsync(id);
-            //if (incident == null)
-            //{
-            //    return NotFound();
-            //}
-            //ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
-            //ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
-            //return View(incident);
+            var incident = await _context.Incidents.FindAsync(id);
+            if (incident == null)
+            {
+                return NotFound();
+            }
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email", incident.CustomerID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
+            ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
+            return View(incident);
         }
 
         // POST: Incidents/Edit/5

@@ -10,7 +10,7 @@
 
 <p>
     @*<a asp-action="Create">Create New</a>*@
-    <form asp-action="AddEdit">
+    <form asp-action="Create">
         <input type="submit" class="btn-success btn" value="Add New Incident" />
     </form>
 </p>
@@ -68,7 +68,7 @@
                     @item.DateClosed?.ToShortDateString()
                 </td>
                 <td>
-                    <a asp-action="AddEdit" asp-route-id="@item.IncidentID">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@item.IncidentID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.IncidentID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.IncidentID">Delete</a>
                 </td>
