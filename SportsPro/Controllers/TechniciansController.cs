@@ -180,5 +180,13 @@ namespace SportsPro.Controllers
                 return View(tech);
             }
         }
+
+        [HttpGet, ActionName("Get")]
+        public  IActionResult Get()
+        {
+            ViewBag.Technicians = _context.Technicians.ToList();
+            var currentTech = _context.Technicians.Find(13);
+            return View(currentTech);
+        }
     }
 }
