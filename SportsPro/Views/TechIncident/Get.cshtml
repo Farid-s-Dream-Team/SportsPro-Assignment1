@@ -1,15 +1,17 @@
-﻿@model Technician
-
+﻿@model Incident 
+@*changed the model to Incident from Technician*@
 @{
     ViewData["Title"] = "Get Technician";
 }
 
 <h1>Technician</h1>
 <div class="mr-3">
-    <form asp-controller="Incidents" asp-action="List" method="post">
+    <form asp-controller="TechIncident" asp-action="List" method="post">
         <select asp-for="TechnicianID" class="form-control ml-2 mr-2"
-                asp-items='@new SelectList(ViewBag.Technicians, "TechnicianID", "Name", Model.TechnicianID)'></select>
+                asp-items='@new SelectList(ViewBag.Technicians, "TechnicianID", "Technician", Model.TechnicianID)'></select>
         <br />
         <button type="submit" class="mr-3 btn btn-outline-success">Select</button>
     </form>
 </div>
+
+

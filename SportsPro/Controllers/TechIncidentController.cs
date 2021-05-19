@@ -9,24 +9,42 @@ using SportsPro.Models;
 
 namespace SportsPro.Controllers
 {
-    public class IncidentsController : Controller
+    public class TechIncidentController : Controller
     {
         private readonly SportsProContext _context;
 
-        public IncidentsController(SportsProContext context)
+        public TechIncidentController(SportsProContext context)
         {
             _context = context;
         }
 
-        // GET: Incidents
-        public async Task<IActionResult> Index()
+        [HttpGet, ActionName("Get")]
+        public IActionResult Get()
         {
-            var incidents = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician);
-            IncidentViewModel ivm = new IncidentViewModel() { Incidents = incidents.ToList() };
+            ViewBag.Technicians = _context.Incidents.ToList();
+            var currentTech = _context.Incidents.Find(13);
+            return View(currentTech);
+        }
+        
+        public async Task<IActionResult> List(int id)
+        {
+            var incidents = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician)
+                .Where(i => i.TechnicianID == id);
+            IncidentViewModel ivm = new IncidentViewModel() { Incidents = incidents.ToList(), };
+            ViewBag.Tech = _context.Technicians.Find(id);
             return View(ivm);
         }
 
-        // GET: Incidents/Details/5
+
+
+        // GET: TechIncident
+        public async Task<IActionResult> Index()
+        {
+            var sportsProContext = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician);
+            return View(await sportsProContext.ToListAsync());
+        }
+
+        // GET: TechIncident/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,16 +65,16 @@ namespace SportsPro.Controllers
             return View(incident);
         }
 
-        // GET: Incidents/Create
+        // GET: TechIncident/Create
         public IActionResult Create()
         {
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email");
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address");
             ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
             ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
             return View();
         }
 
-        // POST: Incidents/Create
+        // POST: TechIncident/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -69,40 +87,18 @@ namespace SportsPro.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email", incident.CustomerID);
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
             ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
             ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
             return View(incident);
         }
 
-        // GET: Incidents/Edit/5
+        // GET: TechIncident/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //List<Customer> customers = _context.Customers
-            //    .OrderBy(c => c.CustomerID).ToList();
-
-            //List<Product> products = _context.Products
-            //    .OrderBy(x => x.Name).ToList();
-
-            //List<Technician> technician = _context.Technicians
-            //    .OrderBy(t => t.Name).ToList();
-
-            //var addEditModel = new IncidentAddEditViewModel
-            //{
-            //    Customers = customers,
-            //    Products = products,
-            //    Technicians = technician
-            //};
-
-            //return View(addEditModel);
-
             if (id == null)
             {
-                //ADD feature, inserted data
-                ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email"); //changed CustomerID to Name, Address to Name
-                ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
-                ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
-                return View();
+                return NotFound();
             }
 
             var incident = await _context.Incidents.FindAsync(id);
@@ -110,13 +106,13 @@ namespace SportsPro.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Email", incident.CustomerID);
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
             ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
             ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
             return View(incident);
         }
 
-        // POST: Incidents/Edit/5
+        // POST: TechIncident/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -154,7 +150,7 @@ namespace SportsPro.Controllers
             return View(incident);
         }
 
-        // GET: Incidents/Delete/5
+        // GET: TechIncident/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -175,7 +171,7 @@ namespace SportsPro.Controllers
             return View(incident);
         }
 
-        // POST: Incidents/Delete/5
+        // POST: TechIncident/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -190,7 +186,5 @@ namespace SportsPro.Controllers
         {
             return _context.Incidents.Any(e => e.IncidentID == id);
         }
-
-
     }
 }
