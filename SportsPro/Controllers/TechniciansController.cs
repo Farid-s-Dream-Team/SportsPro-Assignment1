@@ -188,5 +188,7 @@ namespace SportsPro.Controllers
             var currentTech = _context.Technicians.Find(13);
             return View(currentTech);
         }
+
+
     }
 }
