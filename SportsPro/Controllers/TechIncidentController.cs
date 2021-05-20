@@ -23,6 +23,7 @@ namespace SportsPro.Controllers
         
         public async Task<IActionResult> List(int id)
         {
+            ViewBag.Technician = _context.Technicians.Find(id);
             List<Incident> incidents = null;
             if (id > 0)
             {
@@ -91,12 +92,12 @@ namespace SportsPro.Controllers
                 return NotFound();
             }
 
-            var technician = await _context.Technicians.FindAsync(id);
-            if (technician == null)
+            var incident = await _context.Incidents.FindAsync(id); //changed from Technicians to Incidents
+            if (incident == null)
             {
                 return NotFound();
             }
-            return View(technician);
+            return View(incident);
         }
 
         // POST: Technicians/Edit/5

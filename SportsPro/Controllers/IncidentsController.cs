@@ -111,23 +111,6 @@ namespace SportsPro.Controllers
         // GET: Incidents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //List<Customer> customers = _context.Customers
-            //    .OrderBy(c => c.CustomerID).ToList();
-
-            //List<Product> products = _context.Products
-            //    .OrderBy(x => x.Name).ToList();
-
-            //List<Technician> technician = _context.Technicians
-            //    .OrderBy(t => t.Name).ToList();
-
-            //var addEditModel = new IncidentAddEditViewModel
-            //{
-            //    Customers = customers,
-            //    Products = products,
-            //    Technicians = technician
-            //};
-
-            //return View(addEditModel);
 
             if (id == null)
             {

@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <h2>Technician:  </h2>
+        <h2>Technician: @ViewBag.Technician </h2>
     </div>
     <div class="row">
         <h2>Assigned/Open Incidents</h2>
@@ -15,8 +15,8 @@
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Customer</th>
-                <th>Product</th>
+                <th>Customer ID</th>
+                <th>Product ID</th>
                 <th>Date Opened</th>
                 <th></th>
             </tr>
@@ -31,16 +31,23 @@
                     <td>@incident.ProductID.ToString()</td>
                     <td>@incident.DateOpened.ToShortDateString()</td>
                     <td>
-                        <a asp-controller="Incident" asp-action="Edit" asp-route-id="@incident.IncidentID">Edit</a>
+                        <a asp-controller="Incidents" asp-action="Edit" asp-route-id="@incident.IncidentID">Edit</a>
                     </td>
+                    <td><a asp-controller="Incidents" asp-action="Delete" asp-route-id="@incident.IncidentID">Delete</a></td>
+                    <td><a asp-controller="Incidents" asp-action="Details" asp-route-id="@incident.IncidentID">Details</a></td>
+                    
                 </tr>
-            }
+             }
         }
         else
         {
-            <div>There are no assigned incidents.</div>
+            <h3>There are no assigned incidents.</h3>
         }
 
     </table>
+
+    <div class="row">
+        <a asp-controller="TechIncident" asp-action="Get">Switch Technician</a>
+    </div>
 
 </div>
