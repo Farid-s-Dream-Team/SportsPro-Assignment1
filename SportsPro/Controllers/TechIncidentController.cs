@@ -18,33 +18,31 @@ namespace SportsPro.Controllers
             _context = context;
         }
 
-        [HttpGet, ActionName("Get")]
-        public IActionResult Get()
-        {
-            ViewBag.Technicians = _context.Incidents.ToList();
-            var currentTech = _context.Incidents.Find(13);
-            return View(currentTech);
-        }
+        // GET: LIst of Incidents by TechniciansID
+
         
         public async Task<IActionResult> List(int id)
         {
-            var incidents = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician)
-                .Where(i => i.TechnicianID == id);
-            IncidentViewModel ivm = new IncidentViewModel() { Incidents = incidents.ToList(), };
-            ViewBag.Tech = _context.Technicians.Find(id);
-            return View(ivm);
+            List<Incident> incidents = null;
+            if (id > 0)
+            {
+                incidents = await _context.Incidents.Where(i => i.TechnicianID == id).ToListAsync();
+            } 
+            return View(incidents);
         }
 
-
-
-        // GET: TechIncident
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> List(Technician tech)
         {
-            var sportsProContext = _context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician);
-            return View(await sportsProContext.ToListAsync());
+            List<Incident> incidents = null;
+            if (tech.TechnicianID > 0)
+            {
+                incidents = await _context.Incidents.Where(i => i.TechnicianID == tech.TechnicianID).ToListAsync();
+            }
+            return View(incidents);
         }
 
-        // GET: TechIncident/Details/5
+        // GET: Technicians/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,48 +50,40 @@ namespace SportsPro.Controllers
                 return NotFound();
             }
 
-            var incident = await _context.Incidents
-                .Include(i => i.Customer)
-                .Include(i => i.Product)
-                .Include(i => i.Technician)
-                .FirstOrDefaultAsync(m => m.IncidentID == id);
-            if (incident == null)
+            var technician = await _context.Technicians
+                .FirstOrDefaultAsync(m => m.TechnicianID == id);
+            if (technician == null)
             {
                 return NotFound();
             }
 
-            return View(incident);
+            return View(technician);
         }
 
-        // GET: TechIncident/Create
+        // GET: Technicians/Create
         public IActionResult Create()
         {
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address");
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
-            ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email");
             return View();
         }
 
-        // POST: TechIncident/Create
+        // POST: Technicians/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IncidentID,CustomerID,ProductID,TechnicianID,Title,Description,DateOpened,DateClosed")] Incident incident)
+        public async Task<IActionResult> Create([Bind("TechnicianID,Name,Email,Phone")] Technician technician)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(incident);
+                _context.Add(technician);
                 await _context.SaveChangesAsync();
+                TempData["message"] = $"{technician.Name} has been created";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
-            ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
-            return View(incident);
+            return View(technician);
         }
 
-        // GET: TechIncident/Edit/5
+        // GET: Technicians/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,25 +91,22 @@ namespace SportsPro.Controllers
                 return NotFound();
             }
 
-            var incident = await _context.Incidents.FindAsync(id);
-            if (incident == null)
+            var technician = await _context.Technicians.FindAsync(id);
+            if (technician == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
-            ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
-            return View(incident);
+            return View(technician);
         }
 
-        // POST: TechIncident/Edit/5
+        // POST: Technicians/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IncidentID,CustomerID,ProductID,TechnicianID,Title,Description,DateOpened,DateClosed")] Incident incident)
+        public async Task<IActionResult> Edit(int id, [Bind("TechnicianID,Name,Email,Phone")] Technician technician)
         {
-            if (id != incident.IncidentID)
+            if (id != technician.TechnicianID)
             {
                 return NotFound();
             }
@@ -128,12 +115,12 @@ namespace SportsPro.Controllers
             {
                 try
                 {
-                    _context.Update(incident);
+                    _context.Update(technician);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IncidentExists(incident.IncidentID))
+                    if (!TechnicianExists(technician.TechnicianID))
                     {
                         return NotFound();
                     }
@@ -144,13 +131,10 @@ namespace SportsPro.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Address", incident.CustomerID);
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", incident.ProductID);
-            ViewData["TechnicianID"] = new SelectList(_context.Technicians, "TechnicianID", "Email", incident.TechnicianID);
-            return View(incident);
+            return View(technician);
         }
 
-        // GET: TechIncident/Delete/5
+        // GET: Technicians/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,33 +142,75 @@ namespace SportsPro.Controllers
                 return NotFound();
             }
 
-            var incident = await _context.Incidents
-                .Include(i => i.Customer)
-                .Include(i => i.Product)
-                .Include(i => i.Technician)
-                .FirstOrDefaultAsync(m => m.IncidentID == id);
-            if (incident == null)
+            var technician = await _context.Technicians
+                .FirstOrDefaultAsync(m => m.TechnicianID == id);
+            if (technician == null)
             {
                 return NotFound();
             }
 
-            return View(incident);
+            return View(technician);
         }
 
-        // POST: TechIncident/Delete/5
+        // POST: Technicians/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var incident = await _context.Incidents.FindAsync(id);
-            _context.Incidents.Remove(incident);
+            var technician = await _context.Technicians.FindAsync(id);
+            _context.Technicians.Remove(technician);
             await _context.SaveChangesAsync();
+            TempData["message"] = $"{technician.Name} is now deleted";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool IncidentExists(int id)
+        private bool TechnicianExists(int id)
         {
-            return _context.Incidents.Any(e => e.IncidentID == id);
+            return _context.Technicians.Any(e => e.TechnicianID == id);
         }
+
+        [HttpGet, ActionName("AddEdit")]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Action = "AddEdit";
+            //ViewBag.Incidents = _context.Incidents.OrderBy(g => g.IncidentID).ToList();
+            var tech = _context.Technicians.Find(id);
+            return View(tech);
+        }
+
+        [HttpPost, ActionName("AddEdit")]
+        public IActionResult Edit(Technician tech)
+        {
+            if (ModelState.IsValid)
+            {
+                if (tech.TechnicianID == 0)
+                    _context.Technicians.Add(tech);
+                else
+                    _context.Technicians.Update(tech);
+                _context.SaveChanges();
+                TempData["message"] = $"{tech.Name} is now up to date";
+                return RedirectToAction("Index", "Technicians");
+            }
+            else
+            {
+                ViewBag.Action = (tech.TechnicianID == 0) ? "Add" : "Edit";
+                ViewBag.Incedents = _context.Incidents.OrderBy(g => g.IncidentID).ToList();
+                return View(tech);
+            }
+        }
+
+        [HttpGet, ActionName("Get")]
+        public IActionResult Get()
+        {
+            ViewBag.Tech = _context.Technicians.ToList();
+            var currentTech = _context.Technicians.Find(11);
+            return View(currentTech);
+        }
+
+
+
+
+
+
     }
 }

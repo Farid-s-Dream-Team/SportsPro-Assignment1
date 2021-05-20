@@ -1,11 +1,46 @@
-﻿@model Incident
+﻿@model List<Incident>
 
 @{           
     ViewData["Title"] = "Incident by Technician";
 }
 
 <div class="container">
-    <h2>Technician @ViewBag.Tech</h2>
-    <h2>Assigned/Open Incidents</h2>
+    <div class="row">
+        <h2>Technician:  </h2>
+    </div>
+    <div class="row">
+        <h2>Assigned/Open Incidents</h2>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Date Opened</th>
+                <th></th>
+            </tr>
+        </thead>
+        @if (Model?.Count > 0)
+        {
+            @foreach (var incident in Model)
+            {
+                <tr>
+                    <td>@incident.Title</td>
+                    <td>@incident.CustomerID</td>
+                    <td>@incident.ProductID.ToString()</td>
+                    <td>@incident.DateOpened.ToShortDateString()</td>
+                    <td>
+                        <a asp-controller="Incident" asp-action="Edit" asp-route-id="@incident.IncidentID">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <div>There are no assigned incidents.</div>
+        }
+
+    </table>
 
 </div>
