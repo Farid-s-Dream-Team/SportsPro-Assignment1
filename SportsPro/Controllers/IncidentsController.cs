@@ -26,6 +26,39 @@ namespace SportsPro.Controllers
             return View(ivm);
         }
 
+        [Route("[controller]s/{id?}")]
+        public IActionResult List(string id = "All")
+        {
+            var technicians = _context.Incidents
+                .OrderBy(c => c.IncidentID).ToList();
+
+            List<Incident> incidents;
+            if (id != null) // all incidents
+            {
+                incidents = _context.Incidents
+                    .OrderBy(p => p.IncidentID).ToList();
+            }
+            else  //closed incidents
+            {
+                incidents = _context.Incidents
+                    .Where(p => p.TechnicianID.ToString() == null)
+                    .OrderBy(p => p.IncidentID).ToList();
+            }
+
+
+            // create the view model
+            var model = new IncidentAddEditViewModel
+            {
+                //Technicians = technicians,
+                //Products = 
+
+
+            };
+
+            // pass the view model to the view
+            return View(model);
+        }
+
         // GET: Incidents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -78,23 +111,6 @@ namespace SportsPro.Controllers
         // GET: Incidents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //List<Customer> customers = _context.Customers
-            //    .OrderBy(c => c.CustomerID).ToList();
-
-            //List<Product> products = _context.Products
-            //    .OrderBy(x => x.Name).ToList();
-
-            //List<Technician> technician = _context.Technicians
-            //    .OrderBy(t => t.Name).ToList();
-
-            //var addEditModel = new IncidentAddEditViewModel
-            //{
-            //    Customers = customers,
-            //    Products = products,
-            //    Technicians = technician
-            //};
-
-            //return View(addEditModel);
 
             if (id == null)
             {
@@ -191,7 +207,13 @@ namespace SportsPro.Controllers
             return _context.Incidents.Any(e => e.IncidentID == id);
         }
 
-        
-        
+        [HttpGet, ActionName("Get")]
+        public IActionResult Get()
+        {
+            ViewBag.Tech = _context.Incidents.ToList();
+            var currentTech = _context.Incidents.Find(11);
+            return View(currentTech);
+        }
+
     }
 }

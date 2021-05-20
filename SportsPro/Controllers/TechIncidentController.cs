@@ -9,19 +9,38 @@ using SportsPro.Models;
 
 namespace SportsPro.Controllers
 {
-    public class TechniciansController : Controller
+    public class TechIncidentController : Controller
     {
         private readonly SportsProContext _context;
 
-        public TechniciansController(SportsProContext context)
+        public TechIncidentController(SportsProContext context)
         {
             _context = context;
         }
 
-        // GET: Technicians
-        public async Task<IActionResult> Index()
+        // GET: LIst of Incidents by TechniciansID
+
+        
+        public async Task<IActionResult> List(int id)
         {
-            return View(await _context.Technicians.ToListAsync());
+            ViewBag.Technician = _context.Technicians.Find(id);
+            List<Incident> incidents = null;
+            if (id > 0)
+            {
+                incidents = await _context.Incidents.Where(i => i.TechnicianID == id).ToListAsync();
+            } 
+            return View(incidents);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> List(Technician tech)
+        {
+            List<Incident> incidents = null;
+            if (tech.TechnicianID > 0)
+            {
+                incidents = await _context.Incidents.Where(i => i.TechnicianID == tech.TechnicianID).ToListAsync();
+            }
+            return View(incidents);
         }
 
         // GET: Technicians/Details/5
@@ -73,12 +92,12 @@ namespace SportsPro.Controllers
                 return NotFound();
             }
 
-            var technician = await _context.Technicians.FindAsync(id);
-            if (technician == null)
+            var incident = await _context.Incidents.FindAsync(id); //changed from Technicians to Incidents
+            if (incident == null)
             {
                 return NotFound();
             }
-            return View(technician);
+            return View(incident);
         }
 
         // POST: Technicians/Edit/5
@@ -188,6 +207,8 @@ namespace SportsPro.Controllers
             var currentTech = _context.Technicians.Find(11);
             return View(currentTech);
         }
+
+
 
 
 
