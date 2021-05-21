@@ -17,6 +17,7 @@ namespace SportsPro.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Incident> Incidents { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,7 +32,7 @@ namespace SportsPro.Models
                     YearlyPrice = 4.99M,
                     ReleaseDate = DateTime.Parse("2017-02-01")
                 },
-                new Product
+                new Product 
                 {
                     ProductID = 2,
                     ProductCode = "DRAFT20",
@@ -302,7 +303,25 @@ namespace SportsPro.Models
                     DateOpened = DateTime.Parse("2020-01-10"),
                     DateClosed = null
                 }
+
+                
             );
+
+            //modified by Grant 
+
+            //Registrations : set composite primary key
+            modelBuilder.Entity<Registration>().HasKey(r => new { r.CustomerID, r.ProductID });
+
+            //Registrations : set foreign keys
+            modelBuilder.Entity<Registration>().HasOne(r => r.Customer)
+                .WithMany(r => r.Registrations)
+                .HasForeignKey(r => r.CustomerID);
+
+            modelBuilder.Entity<Registration>().HasOne(p => p.Product)
+                .WithMany(p => p.Registrations)
+                .HasForeignKey(p => p.ProductID);
+
+                  
         }
     }
 }
