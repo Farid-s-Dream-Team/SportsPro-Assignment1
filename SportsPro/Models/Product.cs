@@ -20,5 +20,8 @@ namespace SportsPro.Models
 		public decimal YearlyPrice { get; set; }
 
 		public DateTime ReleaseDate { get; set; } = DateTime.Now;
+
+		public ICollection<CustomerProduct> CustomerProducts { get; set; } //navigation property to linking entity
+
 	}
 }

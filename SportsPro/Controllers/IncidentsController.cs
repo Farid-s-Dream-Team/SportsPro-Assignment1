@@ -215,5 +215,7 @@ namespace SportsPro.Controllers
             return View(currentTech);
         }
 
+        
+
     }
 }

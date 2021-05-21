@@ -1,0 +1,47 @@
+﻿@model List<Customer>
+
+@{           
+    ViewData["Title"] = "Product by Customer";
+}
+
+<div class="container">
+    <div class="row">
+        <h2>Technician: @ViewBag.Technician </h2>
+    </div>
+    <div class="row">
+        <h2>Registrations</h2>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th></th>
+            </tr>
+        </thead>
+        @if (Model?.Count > 0)
+        {
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.</td>
+                    <td>
+                        <a asp-controller="Incidents" asp-action="Edit" asp-route-id="@product.IncidentID">Edit</a>
+                    </td>
+                    <td><a asp-controller="Incidents" asp-action="Delete" asp-route-id="@product.IncidentID">Delete</a></td>
+                    <td><a asp-controller="Incidents" asp-action="Details" asp-route-id="@product.IncidentID">Details</a></td>
+                    
+                </tr>
+             }
+        }
+        else
+        {
+            <h3>There are no assigned incidents.</h3>
+        }
+
+    </table>
+
+    <div class="row">
+        <a asp-controller="TechIncident" asp-action="Get">Switch Technician</a>
+    </div>
+
+</div>
