@@ -21,7 +21,7 @@ namespace SportsPro.Models
 
 		public DateTime ReleaseDate { get; set; } = DateTime.Now;
 
-		public ICollection<CustomerProduct> CustomerProducts { get; set; } //navigation property to linking entity
+		public ICollection<Registration> Registrations { get; set; } //navigation property to linking entity
 
 	}
 }

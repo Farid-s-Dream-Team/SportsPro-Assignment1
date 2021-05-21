@@ -1,4 +1,4 @@
-﻿@model List<Customer>
+﻿@model List<Registration>
 
 @{           
     ViewData["Title"] = "Product by Customer";
@@ -25,10 +25,10 @@
                 <tr>
                     <td>@product.</td>
                     <td>
-                        <a asp-controller="Incidents" asp-action="Edit" asp-route-id="@product.IncidentID">Edit</a>
+                        <a asp-controller="Incidents" asp-action="Edit" asp-route-id="@product.Product">Edit</a>
                     </td>
-                    <td><a asp-controller="Incidents" asp-action="Delete" asp-route-id="@product.IncidentID">Delete</a></td>
-                    <td><a asp-controller="Incidents" asp-action="Details" asp-route-id="@product.IncidentID">Details</a></td>
+                    <td><a asp-controller="Incidents" asp-action="Delete" asp-route-id="@product.ProductID">Delete</a></td>
+               
                     
                 </tr>
              }

@@ -35,6 +35,6 @@ namespace SportsPro.Models
 
 		public string FullName => FirstName + " " + LastName;   // read-only property
 
-		public ICollection<CustomerProduct> CustomerProducts { get; set; } //navigation property to linking entity
+		public ICollection<Registration> Registrations { get; set; } //navigation property to linking entity
 	}
 }

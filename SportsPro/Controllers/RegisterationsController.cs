@@ -183,7 +183,7 @@ namespace SportsPro.Controllers
         [HttpGet, ActionName("GetCustomer")]
         public IActionResult GetCustomer()
         {
-            ViewBag.Customer = _context.Customers.ToList();
+            ViewBag.Customer = _context.Customers.ToList();  //changed Customers to Register
             var currentC = _context.Customers.Find(11);
             return View(currentC);
         }

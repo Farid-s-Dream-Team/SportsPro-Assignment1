@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SportsPro.Models
 {
-    public class CustomerProduct
+    public class Registration
     {
         //composite primary key
         public int CustomerID { get; set; } //foreign key for customer
