@@ -1,4 +1,4 @@
-﻿@model Customer
+﻿@model Registration
 
 @{
     ViewData["Title"] = "GetCustomer";
@@ -9,7 +9,7 @@
 <div class="container">
     <form asp-action="List" method="post">
         <select asp-for="CustomerID" class="form-control ml-2 mr-2"
-                asp-items='@new SelectList(ViewBag.Customer, "CustomerID", "LastName" )'></select>
+                asp-items='@new SelectList(ViewBag.Customer, "CustomerID", "FullName" )'></select>
         <br />
         <button type="submit" class="mr-3 btn btn-outline-success">Select</button>
     </form>
