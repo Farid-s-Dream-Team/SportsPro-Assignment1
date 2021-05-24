@@ -160,10 +160,10 @@ namespace SportsPro.Controllers
         
         public async Task<IActionResult> List(int id)
         {
-            List<Customer> customers = null;
+            List<Registration> customers = null;
             if (id > 0)
             {
-                customers = await _context.Customers.Where(c => c.CustomerID == id).ToListAsync();
+                customers = await _context.Registrations.Where(c => c.CustomerID == id).ToListAsync();
             }
             return View(customers);
 
@@ -172,10 +172,10 @@ namespace SportsPro.Controllers
         [HttpPost]
         public async Task<IActionResult> List(Customer cust)
         {
-            List<Customer> customers = null;
+            List<Registration> customers = null;
             if (cust.CustomerID > 0)
             {
-                customers = await _context.Customers.Where(c => c.CustomerID == cust.CustomerID).ToListAsync();
+                customers = await _context.Registrations.Where(c => c.CustomerID == cust.CustomerID).ToListAsync();
             }
             return View(customers);
         }
