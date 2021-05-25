@@ -7,7 +7,7 @@
 
 <h1>Get Customer</h1>
 <div class="container">
-    <form asp-action="List" method="post">
+    <form asp-action="List" method="get">
         <select asp-for="CustomerID" class="form-control ml-2 mr-2"
                 asp-items='@new SelectList(ViewBag.Customer, "CustomerID", "FullName" )'></select>
         <br />

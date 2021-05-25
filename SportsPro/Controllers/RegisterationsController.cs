@@ -159,21 +159,21 @@ namespace SportsPro.Controllers
         public IActionResult GetCustomer()
         {
             ViewBag.Customer = _context.Customers.ToList();  //changed Customers to Register
-            var currentC = _context.Customers.Find(11);
-            return View(currentC);
+            //var currentC = _context.Customers.Find(11);
+            //return View(currentC);
+            return View();
         }
 
         //List Customers Action
-        //not 
         
         //make the form take a model of type customer
         [HttpGet]
-        public async Task<IActionResult> List(int id) //try to read from 1-Data, 2-Parameters, 3-Query String
+        public async Task<IActionResult> List(int CustomerID) //try to read from 1-Data, 2-Parameters, 3-Query String
         {
             List<Registration> customers = null;
-            if (id > 0)
+            if (CustomerID > 0)
             {
-                customers = await _context.Registrations.Where(c => c.CustomerID == id).ToListAsync();
+                customers = await _context.Registrations.Where(c => c.CustomerID == CustomerID).ToListAsync();
             }
             return View(customers);
 
@@ -190,6 +190,7 @@ namespace SportsPro.Controllers
             }
             else //send a message to select a customer using Temp Data and redirect to Get Customer
                 //insert TEMP DATA here (Must select a customer)
+                TempData["registration"] = $"You must select a customer to proceed";
                 return RedirectToAction("GetCustomer", "Registrations");
         }
 
