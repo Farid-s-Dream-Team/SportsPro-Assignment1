@@ -71,9 +71,10 @@ namespace SportsPro.Controllers
         {
             var products = context.Products.OrderBy(c => c.Name).ToList();
             return View(products);
+
         }
 
-        
+
         public IActionResult About()
         {
             return View();

@@ -9,11 +9,11 @@ using SportsPro.Models;
 
 namespace SportsPro.Controllers
 {
-    public class CustomersController : Controller
+    public class RegistrationsController : Controller
     {
         private readonly SportsProContext _context;
 
-        public CustomersController(SportsProContext context)
+        public RegistrationsController(SportsProContext context)
         {
             _context = context;
         }
@@ -156,6 +156,38 @@ namespace SportsPro.Controllers
             return _context.Customers.Any(e => e.CustomerID == id);
         }
 
-       
+        //List Customers Action
+        
+        public async Task<IActionResult> List(int id)
+        {
+            List<Registration> customers = null;
+            if (id > 0)
+            {
+                customers = await _context.Registrations.Where(c => c.CustomerID == id).ToListAsync();
+            }
+            return View(customers);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> List(Customer cust)
+        {
+            List<Registration> customers = null;
+            if (cust.CustomerID > 0)
+            {
+                customers = await _context.Registrations.Where(c => c.CustomerID == cust.CustomerID).ToListAsync();
+            }
+            return View(customers);
+        }
+
+        [HttpGet, ActionName("GetCustomer")]
+        public IActionResult GetCustomer()
+        {
+            ViewBag.Customer = _context.Customers.ToList();  //changed Customers to Register
+            var currentC = _context.Customers.Find(11);
+            return View(currentC);
+        }
+
+
     }
 }
