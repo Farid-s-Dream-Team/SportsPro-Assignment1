@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SportsPro.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SportsPro.Controllers
 {
@@ -155,10 +154,21 @@ namespace SportsPro.Controllers
         {
             return _context.Customers.Any(e => e.CustomerID == id);
         }
+        
+        [HttpGet, ActionName("GetCustomer")]
+        public IActionResult GetCustomer()
+        {
+            ViewBag.Customer = _context.Customers.ToList();  //changed Customers to Register
+            var currentC = _context.Customers.Find(11);
+            return View(currentC);
+        }
 
         //List Customers Action
+        //not 
         
-        public async Task<IActionResult> List(int id)
+        //make the form take a model of type customer
+        [HttpGet]
+        public async Task<IActionResult> List(int id) //try to read from 1-Data, 2-Parameters, 3-Query String
         {
             List<Registration> customers = null;
             if (id > 0)
@@ -170,24 +180,18 @@ namespace SportsPro.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> List(Customer cust)
+        public async Task<IActionResult> List(Customer cust)    //this list gives admin option to delete currently assigined products
         {
             List<Registration> customers = null;
             if (cust.CustomerID > 0)
             {
                 customers = await _context.Registrations.Where(c => c.CustomerID == cust.CustomerID).ToListAsync();
+                return View(customers);
             }
-            return View(customers);
+            else //send a message to select a customer using Temp Data and redirect to Get Customer
+                //insert TEMP DATA here (Must select a customer)
+                return RedirectToAction("GetCustomer", "Registrations");
         }
-
-        [HttpGet, ActionName("GetCustomer")]
-        public IActionResult GetCustomer()
-        {
-            ViewBag.Customer = _context.Customers.ToList();  //changed Customers to Register
-            var currentC = _context.Customers.Find(11);
-            return View(currentC);
-        }
-
 
     }
 }

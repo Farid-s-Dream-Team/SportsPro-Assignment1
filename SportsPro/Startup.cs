@@ -62,7 +62,7 @@ namespace SportsPro
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>  //from specific to general
             {
                 endpoints.MapControllerRoute(
                     name: "default",
