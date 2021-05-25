@@ -168,14 +168,26 @@ namespace SportsPro.Controllers
         
         //make the form take a model of type customer
         [HttpGet]
-        public async Task<IActionResult> List(int CustomerID) //try to read from 1-Data, 2-Parameters, 3-Query String
+        public async Task<IActionResult> List(int CustomerID, int ProductID) //try to read from 1-Data, 2-Parameters, 3-Query String
         {
-            List<Registration> customers = null;
-            if (CustomerID > 0)
+
+            List<Registration> regists = _context.Registrations.Include(c => c.Customer)
+                                       .Include(p => p.Product)
+                                       .Where(r => r.CustomerID == CustomerID && r.ProductID == ProductID).ToList();
+
+            CustomerViewModel register = new CustomerViewModel()
             {
-                customers = await _context.Registrations.Where(c => c.CustomerID == CustomerID).ToListAsync();
-            }
-            return View(customers);
+                Registrations = regists,
+                Products = _context.Products.ToList()
+            };
+
+
+            //List<Registration> customers = null;
+            //if (CustomerID > 0)
+            //{
+            //    customers = await _context.Registrations.Where(c => c.CustomerID == CustomerID).ToListAsync();
+            //}
+            return View(register);
 
         }
 
