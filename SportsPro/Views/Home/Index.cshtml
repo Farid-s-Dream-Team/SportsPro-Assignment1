@@ -10,36 +10,46 @@
         <div class="jumbotron-fluid">
             <h3 class="display-2">Welcome to SportsPro</h3>
             <p class="lead">Customer Options</p>
-            <div class="col">
-                <a class="btn btn-primary btn-lg" asp-controller="Product" asp-action="Index" role="button">View Products</a>
+            <div class="row">
+                <div class="col-sm-auto">
+                    <h3>Find Your Next SportsPro Product</h3>
+                    <a class="btn btn-primary btn-lg" asp-controller="Product" asp-action="Index" role="button">View Products</a>
+                </div>
+                <div class="col-sm-auto">
+                    <h3>Get to Know Our Amazing Technicians</h3>
+                    <a class="btn btn-primary btn-lg" asp-controller="Technicians" asp-action="Index" role="button">View Technicians</a>
+                </div>
             </div>
         </div>
     </div>
 
-    <h3>Admin</h3>
-    <div class="row">
-        <div class="col-5">
-            <div class="list-group">
-                <a asp-controller="Product" asp-action="Index"
-                   class="list-group-item">Manage Products</a>
-                <a asp-controller="Technicians" asp-action="Index"
-                   class="list-group-item">Manage Technicians</a>
-                <a asp-controller="Registrations" asp-action="GetCustomer"
-                   class="list-group-item">Manage Registrations</a>
-                <a asp-controller="Incidents" asp-action="Index"
-                   class="list-group-item">Manage Incidents</a>
-                <a asp-controller="Countries" asp-action="Index"
-                   class="list-group-item">Countries</a>
+    <div class="m-5">
+        <div class="row">
+            <div class="col-5">
+                <h3>Admin</h3>
+                <div class="list-group">
+                    <a asp-controller="Product" asp-action="Index"
+                       class="list-group-item">Manage Products</a>
+                    <a asp-controller="Technicians" asp-action="Index"
+                       class="list-group-item">Manage Technicians</a>
+                    <a asp-controller="Registrations" asp-action="GetCustomer"
+                       class="list-group-item">Manage Registrations</a>
+                    <a asp-controller="Incidents" asp-action="Index"
+                       class="list-group-item">Manage Incidents</a>
+                    <a asp-controller="Countries" asp-action="Index"
+                       class="list-group-item">Countries</a>
+                </div>
+            </div>
+            <div class="col-5">
+                <h3>Technicians</h3>
+                <div class="list-group">
+                    <a asp-controller="Incidents" asp-action="ListByTech"
+                       class="list-group-item">Update Incident</a>
+                    <a asp-controller="TechIncident" asp-action="Get" class="list-group-item">Get Technician</a>
+                </div>
             </div>
 
-            <h3>Technicians</h3>
-            <div class="list-group">
-                <a asp-controller="Incidents" asp-action="ListByTech"
-                   class="list-group-item">Update Incident</a>
-                <a asp-controller="TechIncident" asp-action="Get" class="list-group-item">Get Technician</a>
-            </div>
         </div>
-
     </div>
     <br>
     <br>
