@@ -4,10 +4,15 @@
 }
 
 <div class="container-fluid">
+    <br>
+    <br>
     <div class="row">
-        <div class="jumbotron-fluid text-center">
-            <h2>SportsPro Technical Support</h2>
-            <h3>Sports management software for the sports enthusiast</h3>
+        <div class="jumbotron-fluid">
+            <h3 class="display-2">Welcome to SportsPro</h3>
+            <p class="lead">Customer Options</p>
+            <div class="col">
+                <a class="btn btn-primary btn-lg" asp-controller="Product" asp-action="Index" role="button">View Products</a>
+            </div>
         </div>
     </div>
 
@@ -34,14 +39,7 @@
                 <a asp-controller="TechIncident" asp-action="Get" class="list-group-item">Get Technician</a>
             </div>
         </div>
-    
-        <div class="col-7 p-1">
-            
-            <video autoplay muted controls loop width="550" height="300">
-                <source src="~/Images/Sports Pro.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+
     </div>
     <br>
     <br>
