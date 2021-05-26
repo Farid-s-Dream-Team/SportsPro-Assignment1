@@ -62,8 +62,12 @@ namespace SportsPro
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>  //from specific to general
             {
+                //endpoints.MapControllerRoute(
+                //    name: "Registration Routing",
+                //    pattern: "{controller=Registrations}/{id?}");
+                
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

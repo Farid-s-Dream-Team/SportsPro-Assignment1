@@ -1,16 +1,22 @@
-﻿@model List<Registration>
-
+﻿@model CustomerViewModel
 @{           
     ViewData["Title"] = "Product by Customer";
 }
 
 <div class="container">
+    @* show any message in TempData *@
+    @if (TempData["registration"] != null)
+    {
+        <h4 class="bg-success p-2">@TempData["registration"]</h4>
+    }
     <div class="row">
-        <h2>Customer: @ViewBag.Customer </h2>
+        <h2>Customer: @Model.Customer.FullName </h2>
     </div>
     <div class="row">
         <h2>Registrations</h2>
     </div>
+
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -18,36 +24,38 @@
                 <th></th>
             </tr>
         </thead>
-        @if (Model?.Count > 0)
-        {
-            @foreach (var product in Model)
+        @if (Model.Customer != null)
             {
-                <tr>
-                    <td>@product.</td>
-                    <td>
-                        <a asp-controller="Registrations" asp-action="Edit" asp-route-id="@product.Product">Edit</a>
-                    </td>
-                    <td><a asp-controller="Registrations" asp-action="Delete" asp-route-id="@product.ProductID">Delete</a></td>
+                @foreach (Registration register in Model.Registrations)
+                {
+                    <tr>
+                        <td>@register.Product.Name</td>
+                        <td><a asp-controller="Registrations" asp-action="Delete" asp-route-productid="@register.ProductID" 
+                               asp-route-customerid="@register.CustomerID">Delete</a></td>
 
-
-                </tr>
+                    </tr>
+                }
             }
-        }
-        else
-        {
-            <h3>There are no assigned incidents.</h3>
-        }
+            else
+            {
+                <h2>There are no assigned incidents.</h2>
+            }
 
     </table>
 
-    @*<h1>Product</h1>
-    <div class="container">
-        <form asp-action="Update" method="post">
-            <select asp-for="ProductID" class="form-control ml-2 mr-2"
-                    asp-items='@new SelectList(ViewBag.Tech, "ProductID", "Name", Model.)'></select>
-            <br />
-            <button type="submit" class="mr-3 btn btn-outline-success">Select</button>
+    <div class="form-group">
+        <form asp-action="List" method="post">
+            <label asp-for="ProductID">Product</label>
+            <select asp-for="ProductID"
+                    asp-items="@(new SelectList(Model.Products, "ProductID", "Name"))"
+                    class="form-control">
+                <option value="">Select a product ...</option>
+            </select>
+
+            <input type="hidden" asp-for="CustomerID" />
+
+            <button type="submit" class="btn btn-success">Register</button>
         </form>
-    </div>*@
+    </div>
 
 </div>
