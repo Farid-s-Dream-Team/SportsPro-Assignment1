@@ -121,22 +121,24 @@ namespace SportsPro.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? ProductID, int? CustomerID)
         {
-            if (id == null)
+            if (CustomerID == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .Include(c => c.Country)
-                .FirstOrDefaultAsync(m => m.CustomerID == id);
-            if (customer == null)
+            var registration = await _context.Registrations
+                .FirstOrDefaultAsync(m => m.CustomerID == CustomerID && m.ProductID == ProductID);
+            if (registration == null)
             {
                 return NotFound();
             }
+            _context.Registrations.Remove(registration);
+            await _context.SaveChangesAsync();
 
-            return View(customer);
+            TempData["Message"] = $"{ProductID} Removed from Customer";
+            return RedirectToAction("List", new { CustomerID = CustomerID});
         }
 
         // POST: Customers/Delete/5
@@ -168,17 +170,19 @@ namespace SportsPro.Controllers
         
         //make the form take a model of type customer
         [HttpGet]
-        public async Task<IActionResult> List(int CustomerID, int ProductID) //try to read from 1-Data, 2-Parameters, 3-Query String
+        public async Task<IActionResult> List(int CustomerID) //try to read from 1-Data, 2-Parameters, 3-Query String
         {
 
             List<Registration> regists = _context.Registrations.Include(c => c.Customer)
                                        .Include(p => p.Product)
-                                       .Where(r => r.CustomerID == CustomerID && r.ProductID == ProductID).ToList();
+                                       .Where(r => r.CustomerID == CustomerID).ToList();
 
             CustomerViewModel register = new CustomerViewModel()
             {
                 Registrations = regists,
-                Products = _context.Products.ToList()
+                Products = _context.Products.ToList(),
+                Customer = _context.Customers.Find(CustomerID),
+                CustomerID = CustomerID
             };
 
 
@@ -192,18 +196,40 @@ namespace SportsPro.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> List(Customer cust)    //this list gives admin option to delete currently assigined products
+        public async Task<IActionResult> List(CustomerViewModel registervm)    //this list gives admin option to delete currently assigined products
         {
-            List<Registration> customers = null;
-            if (cust.CustomerID > 0)
+
+            if (registervm.ProductID == 0) // there is no product selected
             {
-                customers = await _context.Registrations.Where(c => c.CustomerID == cust.CustomerID).ToListAsync();
-                return View(customers);
+                TempData["Message"] = "Please select a product";
+                return RedirectToAction("List", new { CustomerID = registervm.CustomerID });
             }
-            else //send a message to select a customer using Temp Data and redirect to Get Customer
-                //insert TEMP DATA here (Must select a customer)
-                TempData["registration"] = $"You must select a customer to proceed";
-                return RedirectToAction("GetCustomer", "Registrations");
+
+            var newreg = new Registration()
+            {
+                CustomerID = registervm.CustomerID,
+                ProductID = registervm.ProductID
+            };
+
+            _context.Registrations.Add(newreg);
+            _context.SaveChanges();
+            TempData["Message"] = $" {registervm.ProductID} has been added to customer.";
+
+            return RedirectToAction("List", new { CustomerID = registervm.CustomerID });
+
+
+
+
+            //List<Registration> customers = null;
+            //if (cust.CustomerID > 0)
+            //{
+            //    customers = await _context.Registrations.Where(c => c.CustomerID == cust.CustomerID).ToListAsync();
+            //    return View(customers);
+            //}
+            //else //send a message to select a customer using Temp Data and redirect to Get Customer
+            //    //insert TEMP DATA here (Must select a customer)
+            //    TempData["registration"] = $"You must select a customer to proceed";
+            //    return RedirectToAction("GetCustomer", "Registrations");
         }
 
     }
