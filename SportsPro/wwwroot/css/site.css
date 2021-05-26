@@ -47,9 +47,12 @@ header {
 
 .productmanager {
     width: 70%;
-    align-content:center;
-    border:thick;
-    border-color:black;
+    align-content: center;
+    border: thick;
+    border-color: black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .registration_image {
@@ -64,3 +67,11 @@ header {
     padding-left: 75em;
     border: 255px solid #555;
 }
+
+.sucess-box {
+    background-color: green;
+    opacity: 25%;
+    border: 255px solid #555;
+    text-align: center;
+}
+
