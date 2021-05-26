@@ -23,13 +23,14 @@ namespace SportsPro.Models
 		public string State { get; set; }
 
 		[Required(ErrorMessage = "Please enter a Postal Code.")]
+		//[RegularExpression("\\^[A - Z]\\d[A - Z] \\d[A - Z]\\d$)")]
 		public string PostalCode { get; set; }
 				
 		public string CountryID { get; set; }
 
 		public Country Country { get; set; }
 
-		[RegularExpression("\\D*([2-9]\\d{2})(\\D*)([2-9]\\d{2})(\\D*)(\\d{4})\\D*", ErrorMessage = "Please input in format 0000000000")]
+		[RegularExpression("\\D*([2-9]\\d{2})(\\D*)([2-9]\\d{2})(\\D*)(\\d{4})\\D*", ErrorMessage = "Please input in format 000-000-0000")]
 		public string Phone { get; set; }
 
 		public string Email { get; set; }
