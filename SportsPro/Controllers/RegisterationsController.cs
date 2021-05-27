@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SportsPro.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace SportsPro.Controllers
 {
+    [Authorize]
     public class RegistrationsController : Controller
     {
         private readonly SportsProContext _context;
