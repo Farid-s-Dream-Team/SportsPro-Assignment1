@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using SportsPro.Models;
 
@@ -34,14 +36,23 @@ namespace SportsPro
                 options.UseSqlServer(
                     Configuration.GetConnectionString("SportsPro")));
 
+            // add this
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<SportsProContext>()
+              .AddDefaultTokenProviders();
+
             services.AddRouting(options => {
                 options.LowercaseUrls = true;
-                options.AppendTrailingSlash = true;
+                options.AppendTrailingSlash = true;              
             });
         }
 
         // Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -58,9 +69,12 @@ namespace SportsPro
 
             app.UseRouting();
 
+            app.UseAuthentication();   // add this
+            app.UseAuthorization();    // add this
+
             app.UseSession(); // necessary for sessions
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>  //from specific to general
             {
