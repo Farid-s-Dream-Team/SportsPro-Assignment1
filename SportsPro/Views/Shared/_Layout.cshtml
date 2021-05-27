@@ -70,7 +70,7 @@
                 @if (signInManager.IsSignedIn(User))
                 {
                     // signed-in user - Log Out button and username
-                    <li class="nav-item">
+                    <li class="nav-item nav-link">
                         <form method="post" asp-action="LogOut" asp-controller="Account"
                               asp-area="">
                             <input type="submit" value="Log Out"
@@ -84,23 +84,23 @@
                     //var action = ViewContext.RouteData.Values["action"]?.ToString();
 
                     // anonymous user - Register link and Log In button
-                    <li class="nav-item @Nav.Active("Register", action)">
+                    <li class="nav-item nav-link @Nav.Active("Register", action)">
                         <a asp-action="Register" asp-controller="Account"
                            asp-area="" class="nav-link">
-                            <span class="fas fa-edit"></span>&nbsp;Register
+                            @*<span class="fas fa-edit"></span>&nbsp;*@Register
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item nav-link">
                         <a asp-action="Login" asp-controller="Account"
                            asp-area="" class="btn btn-outline-light">Log In</a>
                     </li>
                 }
 
-                <li class="nav-item @Nav.Active("Admin", current)">
+                @*<li class="nav-item nav-link @Nav.Active("Admin", current)">
                     <a class="nav-link" asp-action="Index" asp-controller="Book" asp-area="Admin">
                         <span class="fas fa-cog"></span>&nbsp;Admin
                     </a>
-                </li>
+                </li>*@
             </nav>
         </nav>
     </header>
