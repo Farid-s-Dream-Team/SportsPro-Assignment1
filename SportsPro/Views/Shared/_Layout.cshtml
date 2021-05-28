@@ -59,7 +59,7 @@
                     <a class="nav-item nav-link @(controller == "Technicians"  ? "active" : "")" asp-controller="Technicians" asp-action="Index">Technicians</a>
                     <a class="nav-item nav-link @( controller == "Customers"  && action != "Create" ? "active" : "")" asp-controller="Customers" asp-action="Index">Customers</a>
                     <a class="nav-item nav-link @( controller == "Incidents"  ? "active" : "")" asp-controller="Incidents" asp-action="Index">Incidents</a>
-                    <a class="nav-item nav-link @( controller == "Registrations" && action == "Registrations" ? "active" : "")" asp-controller="Registrations" asp-action="GetCustomer">Registrations</a>
+                    <a class="nav-item nav-link @( controller == "Registrations" && action == "Registrations" ? "active" : "")" asp-controller="Registrations" asp-action="GetCustomer">Register a Product</a>
                 </div>
                 <div class="navbar-nav navbar-right">
                     <a class="nav-item nav-link @(controller == "Home" && action == "About" ? "active" : "")" asp-controller="Home" asp-action="About">About</a>
