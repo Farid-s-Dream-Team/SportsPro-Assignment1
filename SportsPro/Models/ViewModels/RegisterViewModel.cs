@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Author - Farid & Sirini
+
+
+using System.ComponentModel.DataAnnotations;
 
 namespace SportsPro.Models
 {
