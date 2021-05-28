@@ -1,4 +1,7 @@
-﻿namespace SportsPro.Models
+﻿// Author - Farid & Sirini
+
+
+namespace SportsPro.Models
 {
     public static class Nav
     {
